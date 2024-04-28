@@ -1,7 +1,6 @@
 // pages/index.js
 
 import { useEffect, useState } from "react";
-import { getProducts } from "../lib/kinguinAPI";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -10,7 +9,11 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getProducts("7af120b845da4e4f6b5a342c774df064");
+        const response = await fetch("/api/kinguin");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products from Kinguin API");
+        }
+        const data = await response.json();
         setProducts(data.products);
       } catch (error) {
         setError(error.message);
