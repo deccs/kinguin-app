@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getProducts("9ad38b27d7fedbb20cfd5f3d37874c56");
+        const data = await getProducts("7af120b845da4e4f6b5a342c774df064");
         setProducts(data.products);
       } catch (error) {
         setError(error.message);
