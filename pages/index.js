@@ -1,25 +1,6 @@
 // pages/index.js
 
-import { useEffect, useState } from "react";
-import { getProducts } from "../lib/kinguinAPI";
-
-export default function Home() {
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts("7af120b845da4e4f6b5a342c774df064");
-        setProducts(data.products);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
+export default function Home({ products, error }) {
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -34,4 +15,17 @@ export default function Home() {
       </ul>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const res = await fetch("/api/products");
+    if (!res.ok) {
+      throw new Error("Failed to fetch products from API");
+    }
+    const data = await res.json();
+    return { props: { products: data.products } };
+  } catch (error) {
+    return { props: { error: error.message } };
+  }
 }
