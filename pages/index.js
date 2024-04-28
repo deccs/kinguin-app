@@ -19,7 +19,9 @@ export default function Home({ products, error }) {
 
 export async function getServerSideProps() {
   try {
-    const res = await fetch("/api/products");
+    const res = await fetch(
+      "https://kinguin-ap706kdy3-deccs-projects-d47ac22a.vercel.app/api/products"
+    );
     if (!res.ok) {
       throw new Error("Failed to fetch products from API");
     }
